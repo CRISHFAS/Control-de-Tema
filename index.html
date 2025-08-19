@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Tema con HTML, CSS y JS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease-in-out;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .dark-text {
+            color: #1f2937;
+        }
+
+        .light-text {
+            color: #f3f4f6;
+        }
+        
+        .dark-heading {
+            color: #1f2937;
+        }
+
+        .light-heading {
+            color: #f3f4f6;
+        }
+
+        .theme-switcher {
+            top: 1rem;
+            right: 1rem;
+            z-index: 50;
+        }
+
+        .slider-container {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slider {
+            width: 1rem;
+            height: 8rem;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .slider-handle {
+            width: 1rem;
+            height: 1rem;
+            background-color: #3b82f6;
+            border-radius: 9999px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            cursor: grab;
+            transition: top 0.3s ease-in-out;
+        }
+        
+        .content-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .content-container h1, .content-container h2 {
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body class="flex flex-col items-center p-8 relative">
+
+    <!-- Botón de Tema y Slider -->
+    <div class="theme-switcher absolute flex flex-col items-center">
+        <!-- Icono principal (Sol/Luna) -->
+        <button id="theme-button" class="transition-colors duration-500 hover:text-gray-700">
+            <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2"/>
+                <path d="M12 20v2"/>
+                <path d="m4.93 4.93 1.41 1.41"/>
+                <path d="m17.66 17.66 1.41 1.41"/>
+                <path d="M2 12h2"/>
+                <path d="M20 12h2"/>
+                <path d="m6.34 17.66-1.41 1.41"/>
+                <path d="m19.07 4.93-1.41 1.41"/>
+            </svg>
+            <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon hidden">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+        </button>
+        
+        <!-- Contenedor del Slider (oculto por defecto) -->
+        <div id="slider-and-percentage" class="flex flex-col items-center gap-2 mt-4 opacity-0 pointer-events-none transition-opacity duration-500">
+            <span id="percentage-label" class="font-semibold text-sm transition-colors duration-500">0%</span>
+            <div id="slider" class="slider">
+                <div id="slider-handle" class="slider-handle"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido del artículo -->
+    <div id="content-container" class="content-container w-full transition-colors duration-500 dark-text">
+        <h1 class="text-4xl md:text-5xl mb-6 text-center transition-colors duration-500 dark-heading">
+            Documentación del Sistema de Control de Tema
+        </h1>
+        <p class="mb-4 leading-relaxed">
+            Esta documentación describe el funcionamiento y la estructura del sistema de control de tema interactivo, implementado con <strong>HTML</strong>, <strong>CSS</strong>, y <strong>JavaScript</strong> puros. El objetivo es proporcionar una interfaz minimalista y funcional que permita a los usuarios ajustar gradualmente la luminosidad de una página web, cambiando de modo claro a oscuro de manera fluida.
+        </p>
+
+        <h2 class="text-2xl mt-8 mb-4 dark-heading">1. Estructura y Estilo</h2>
+        <p class="mb-4 leading-relaxed">
+            La página está construida con una estructura simple y una apariencia limpia, utilizando <strong>Tailwind CSS</strong> para un estilo eficiente.
+        </p>
+        <ul class="list-disc list-inside mb-4 ml-4 leading-relaxed">
+            <li><strong>HTML</strong>: Se divide en tres componentes principales para una organización lógica: el contenedor de interfaz, el contenedor del slider y el contenido del artículo.</li>
+            <li><strong>CSS</strong>: El estilo se basa en utilidades de Tailwind CSS para el diseño y CSS personalizado para elementos específicos. Las **transiciones CSS** hacen que los cambios visuales sean fluidos.</li>
+        </ul>
+
+        <h2 class="text-2xl mt-8 mb-4 dark-heading">2. Lógica y Técnicas</h2>
+        <p class="mb-4 leading-relaxed">
+            Aquí es donde el sistema cobra vida, manejando toda la interactividad con JavaScript.
+        </p>
+        <ul class="list-disc list-inside mb-4 ml-4 leading-relaxed">
+            <li><strong>Manipulación del DOM</strong>: Se usan métodos como <code>document.getElementById()</code> y se modifican propiedades como <code>classList</code> y <code>style</code> para cambiar el aspecto de los elementos de forma dinámica.</li>
+            <li><strong>Gestión de Eventos</strong>: El sistema utiliza **event listeners** (<code>click</code>, <code>mousedown</code>, <code>mousemove</code>, <code>mouseup</code>) para reaccionar a las acciones del usuario, permitiendo el arrastre y los clics instantáneos.</li>
+            <li><strong>Control de Estado</strong>: Se utilizan variables para mantener el estado de la interfaz, como <code>isDragging</code> y <code>darknessPercentage</code>.</li>
+            <li><strong>Temporizadores</strong>: Se implementa la técnica de <strong><code>setTimeout</code> y <code>clearTimeout</code></strong> para ocultar la barra automáticamente después de 3 segundos de inactividad, mejorando la experiencia del usuario.</li>
+        </ul>
+        <p class="leading-relaxed">
+            Estas técnicas combinadas crean un sistema robusto, reactivo y con un diseño elegante, demostrando un uso eficaz de las herramientas fundamentales del desarrollo web.
+        </p>
+    </div>
+
+    <script>
+        const themeButton = document.getElementById('theme-button');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const sliderContainer = document.getElementById('slider-and-percentage');
+        const slider = document.getElementById('slider');
+        const sliderHandle = document.getElementById('slider-handle');
+        const percentageLabel = document.getElementById('percentage-label');
+        const body = document.body;
+        const contentContainer = document.getElementById('content-container');
+        const heading = contentContainer.querySelector('h1');
+        const subheadings = contentContainer.querySelectorAll('h2');
+
+        let isDragging = false;
+        let darknessPercentage = 0;
+        let timeoutId = null;
+
+        // Función para actualizar los colores del tema
+        function updateTheme(percentage) {
+            const hue = 210;
+            const saturation = 10;
+            const lightness = 100 - percentage;
+            body.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
+            if (percentage > 50) {
+                contentContainer.classList.remove('dark-text');
+                contentContainer.classList.add('light-text');
+                heading.classList.remove('dark-heading');
+                heading.classList.add('light-heading');
+                subheadings.forEach(h => {
+                    h.classList.remove('dark-heading');
+                    h.classList.add('light-heading');
+                });
+                themeButton.style.color = 'white';
+                percentageLabel.classList.add('light-text');
+                percentageLabel.classList.remove('dark-text');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            } else {
+                contentContainer.classList.remove('light-text');
+                contentContainer.classList.add('dark-text');
+                heading.classList.remove('light-heading');
+                heading.classList.add('dark-heading');
+                subheadings.forEach(h => {
+                    h.classList.remove('light-heading');
+                    h.classList.add('dark-heading');
+                });
+                themeButton.style.color = 'black';
+                percentageLabel.classList.add('dark-text');
+                percentageLabel.classList.remove('light-text');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            }
+        }
+
+        // Función para ocultar la barra del slider
+        function hideSlider() {
+            sliderContainer.classList.add('opacity-0');
+            sliderContainer.classList.add('pointer-events-none');
+        }
+
+        // Función para reiniciar el temporizador para ocultar la barra
+        function resetTimeout() {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(hideSlider, 2500); // 3 segundos de inactividad
+        }
+        
+        // Manejador para el movimiento del mouse durante el arrastre
+        function handleMouseMove(e) {
+            if (!isDragging) return;
+            resetTimeout();
+            const sliderRect = slider.getBoundingClientRect();
+            let newPercentage = (((e.clientY - sliderRect.top) / sliderRect.height) * 100);
+
+            if (newPercentage > 100) newPercentage = 100;
+            if (newPercentage < 0) newPercentage = 0;
+
+            darknessPercentage = newPercentage;
+            sliderHandle.style.top = `${darknessPercentage}%`;
+            percentageLabel.textContent = `${Math.round(darknessPercentage)}%`;
+            updateTheme(darknessPercentage);
+        }
+
+        // Manejador para soltar el click del mouse
+        function handleMouseUp() {
+            isDragging = false;
+            resetTimeout();
+        }
+
+        // Manejador para hacer clic en la barra del slider
+        function handleSliderClick(e) {
+            resetTimeout();
+            const sliderRect = slider.getBoundingClientRect();
+            let newPercentage = (((e.clientY - sliderRect.top) / sliderRect.height) * 100);
+            
+            if (newPercentage > 100) newPercentage = 100;
+            if (newPercentage < 0) newPercentage = 0;
+            
+            darknessPercentage = newPercentage;
+            sliderHandle.style.top = `${darknessPercentage}%`;
+            percentageLabel.textContent = `${Math.round(darknessPercentage)}%`;
+            updateTheme(darknessPercentage);
+        }
+
+        // Event listener para el botón de tema
+        themeButton.addEventListener('click', () => {
+            sliderContainer.classList.toggle('opacity-0');
+            sliderContainer.classList.toggle('pointer-events-none');
+            if (!sliderContainer.classList.contains('opacity-0')) {
+                resetTimeout();
+            } else {
+                clearTimeout(timeoutId);
+            }
+        });
+
+        // Event listeners para el arrastre del slider
+        sliderHandle.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            e.preventDefault();
+            clearTimeout(timeoutId);
+        });
+        
+        slider.addEventListener('click', handleSliderClick);
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+        
+        // Ocultar el slider si se hace clic fuera de él
+        document.addEventListener('mousedown', (e) => {
+            if (!sliderContainer.contains(e.target) && !themeButton.contains(e.target)) {
+                hideSlider();
+                clearTimeout(timeoutId);
+            }
+        });
+
+        // Inicializar el tema
+        updateTheme(darknessPercentage);
+    </script>
+</body>
+</html>
