@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Tema con HTML, CSS y JS</title>
+    <title>Sistema de Tema deslizante y traducción con HTML, CSS y JS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -33,6 +33,7 @@
         }
 
         .theme-switcher {
+            position: absolute;
             top: 1rem;
             right: 1rem;
             z-index: 50;
@@ -74,9 +75,54 @@
             font-weight: bold;
         }
 
+        /* Nuevos estilos para el componente de idioma */
+        .language-switcher {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 50;
+        }
+        
+        .dropdown-menu {
+            transition: opacity 0.5s ease-in-out;
+            transform-origin: top;
+        }
+
+        .dropdown-button {
+            border: 1px solid rgba(0,0,0,0.2);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s ease-in-out;
+        }
+        
+        .dropdown-button:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        
+        /* Estilos para el texto de las listas */
+        .list-text {
+            color: inherit;
+        }
+
     </style>
 </head>
 <body class="flex flex-col items-center p-8 relative">
+
+    <!-- Componente de Traducción de Idioma -->
+    <div class="language-switcher">
+        <button id="language-button" class="dropdown-button dark-text">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe-2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/><path d="M12 2a14.5 14.5 0 0 1 10 10 14.5 14.5 0 0 1-10 10V2z"/></svg>
+            <span id="current-language-label">ES</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <ul id="language-dropdown" class="absolute mt-2 p-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg opacity-0 pointer-events-none dropdown-menu">
+            <!-- Las opciones de idioma se insertarán aquí con JavaScript -->
+        </ul>
+    </div>
 
     <!-- Botón de Tema y Slider -->
     <div class="theme-switcher absolute flex flex-col items-center">
@@ -109,38 +155,215 @@
 
     <!-- Contenido del artículo -->
     <div id="content-container" class="content-container w-full transition-colors duration-500 dark-text">
-        <h1 class="text-4xl md:text-5xl mb-6 text-center transition-colors duration-500 dark-heading">
+        <h1 id="main-title" class="text-4xl md:text-5xl mb-6 text-center transition-colors duration-500 dark-heading">
             Documentación del Sistema de Control de Tema
         </h1>
-        <p class="mb-4 leading-relaxed">
+        <p id="p1" class="mb-4 leading-relaxed">
             Esta documentación describe el funcionamiento y la estructura del sistema de control de tema interactivo, implementado con <strong>HTML</strong>, <strong>CSS</strong>, y <strong>JavaScript</strong> puros. El objetivo es proporcionar una interfaz minimalista y funcional que permita a los usuarios ajustar gradualmente la luminosidad de una página web, cambiando de modo claro a oscuro de manera fluida.
         </p>
 
-        <h2 class="text-2xl mt-8 mb-4 dark-heading">1. Estructura y Estilo</h2>
-        <p class="mb-4 leading-relaxed">
+        <h2 id="h2-1" class="text-2xl mt-8 mb-4 dark-heading">1. Estructura y Estilo</h2>
+        <p id="p2" class="mb-4 leading-relaxed">
             La página está construida con una estructura simple y una apariencia limpia, utilizando <strong>Tailwind CSS</strong> para un estilo eficiente.
         </p>
-        <ul class="list-disc list-inside mb-4 ml-4 leading-relaxed">
-            <li><strong>HTML</strong>: Se divide en tres componentes principales para una organización lógica: el contenedor de interfaz, el contenedor del slider y el contenido del artículo.</li>
-            <li><strong>CSS</strong>: El estilo se basa en utilidades de Tailwind CSS para el diseño y CSS personalizado para elementos específicos. Las **transiciones CSS** hacen que los cambios visuales sean fluidos.</li>
+        <ul id="ul-1" class="list-disc list-inside mb-4 ml-4 leading-relaxed">
+            <li><span class="list-text"><strong>HTML</strong>: Se divide en tres componentes principales para una organización lógica: el contenedor de interfaz, el contenedor del slider y el contenido del artículo.</span></li>
+            <li><span class="list-text"><strong>CSS</strong>: El estilo se basa en utilidades de Tailwind CSS para el diseño y CSS personalizado para elementos específicos. Las **transiciones CSS** hacen que los cambios visuales sean fluidos.</span></li>
         </ul>
 
-        <h2 class="text-2xl mt-8 mb-4 dark-heading">2. Lógica y Técnicas</h2>
-        <p class="mb-4 leading-relaxed">
+        <h2 id="h2-2" class="text-2xl mt-8 mb-4 dark-heading">2. Lógica y Técnicas</h2>
+        <p id="p3" class="mb-4 leading-relaxed">
             Aquí es donde el sistema cobra vida, manejando toda la interactividad con JavaScript.
         </p>
-        <ul class="list-disc list-inside mb-4 ml-4 leading-relaxed">
-            <li><strong>Manipulación del DOM</strong>: Se usan métodos como <code>document.getElementById()</code> y se modifican propiedades como <code>classList</code> y <code>style</code> para cambiar el aspecto de los elementos de forma dinámica.</li>
-            <li><strong>Gestión de Eventos</strong>: El sistema utiliza **event listeners** (<code>click</code>, <code>mousedown</code>, <code>mousemove</code>, <code>mouseup</code>) para reaccionar a las acciones del usuario, permitiendo el arrastre y los clics instantáneos.</li>
-            <li><strong>Control de Estado</strong>: Se utilizan variables para mantener el estado de la interfaz, como <code>isDragging</code> y <code>darknessPercentage</code>.</li>
-            <li><strong>Temporizadores</strong>: Se implementa la técnica de <strong><code>setTimeout</code> y <code>clearTimeout</code></strong> para ocultar la barra automáticamente después de 3 segundos de inactividad, mejorando la experiencia del usuario.</li>
+        <ul id="ul-2" class="list-disc list-inside mb-4 ml-4 leading-relaxed">
+            <li><span class="list-text"><strong>Manipulación del DOM</strong>: Se usan métodos como <code>document.getElementById()</code> y se modifican propiedades como <code>classList</code> y <code>style</code> para cambiar el aspecto de los elementos de forma dinámica.</span></li>
+            <li><span class="list-text"><strong>Gestión de Eventos</strong>: El sistema utiliza **event listeners** (<code>click</code>, <code>mousedown</code>, <code>mousemove</code>, <code>mouseup</code>) para reaccionar a las acciones del usuario, permitiendo el arrastre y los clics instantáneos.</span></li>
+            <li><span class="list-text"><strong>Control de Estado</strong>: Se usan variables para mantener el estado de la interfaz, como <code>isDragging</code> y <code>darknessPercentage</code>.</span></li>
+            <li><span class="list-text"><strong>Temporizadores</strong>: Se implementa la técnica de <strong><code>setTimeout</code> y <code>clearTimeout</code></strong> para ocultar la barra automáticamente después de 2,5 segundos de inactividad, mejorando la experiencia del usuario.</span></li>
         </ul>
-        <p class="leading-relaxed">
+        <p id="p4" class="leading-relaxed">
             Estas técnicas combinadas crean un sistema robusto, reactivo y con un diseño elegante, demostrando un uso eficaz de las herramientas fundamentales del desarrollo web.
+        </p>
+        
+        <h2 id="h2-3" class="text-2xl mt-8 mb-4 dark-heading">3. Componente de Traducción de Idioma</h2>
+        <p id="p5" class="mb-4 leading-relaxed">
+            El componente de traducción de idioma se ha añadido para permitir a los usuarios cambiar el contenido de la página a su idioma preferido. El menú desplegable muestra una lista de idiomas disponibles. Al seleccionar un idioma, se actualiza el texto principal del artículo dinámicamente, proporcionando una experiencia más inclusiva y accesible para los usuarios de todo el mundo.
         </p>
     </div>
 
     <script>
+        // --- Lógica del componente de idioma ---
+        const languageButton = document.getElementById('language-button');
+        const languageDropdown = document.getElementById('language-dropdown');
+        const currentLanguageLabel = document.getElementById('current-language-label');
+
+        const languages = [
+            { code: 'ES', name: 'Español' },
+            { code: 'EN', name: 'English' },
+            { code: 'FR', name: 'Français' },
+            { code: 'DE', name: 'Deutsch' },
+            { code: 'JP', name: '日本語' }
+        ];
+
+        const translations = {
+            'ES': {
+                'main-title': 'Documentación del Sistema de Control de Tema',
+                'p1': 'Esta documentación describe el funcionamiento y la estructura del sistema de control de tema interactivo, implementado con <strong>HTML</strong>, <strong>CSS</strong>, y <strong>JavaScript</strong> puros. El objetivo es proporcionar una interfaz minimalista y funcional que permita a los usuarios ajustar gradualmente la luminosidad de una página web, cambiando de modo claro a oscuro de manera fluida.',
+                'h2-1': '1. Estructura y Estilo',
+                'p2': 'La página está construida con una estructura simple y una apariencia limpia, utilizando <strong>Tailwind CSS</strong> para un estilo eficiente.',
+                'ul-1': [
+                    '<strong>HTML</strong>: Se divide en tres componentes principales para una organización lógica: el contenedor de interfaz, el contenedor del slider y el contenido del artículo.',
+                    '<strong>CSS</strong>: El estilo se basa en utilidades de Tailwind CSS para el diseño y CSS personalizado para elementos específicos. Las **transiciones CSS** hacen que los cambios visuales sean fluidos.'
+                ],
+                'h2-2': '2. Lógica y Técnicas',
+                'p3': 'Aquí es donde el sistema cobra vida, manejando toda la interactividad con JavaScript.',
+                'ul-2': [
+                    '<strong>Manipulación del DOM</strong>: Se usan métodos como <code>document.getElementById()</code> y se modifican propiedades como <code>classList</code> y <code>style</code> para cambiar el aspecto de los elementos de forma dinámica.',
+                    '<strong>Gestión de Eventos</strong>: El sistema utiliza **event listeners** (<code>click</code>, <code>mousedown</code>, <code>mousemove</code>, <code>mouseup</code>) para reaccionar a las acciones del usuario, permitiendo el arrastre y los clics instantáneos.',
+                    '<strong>Control de Estado</strong>: Se usan variables para mantener el estado de la interfaz, como <code>isDragging</code> y <code>darknessPercentage</code>.',
+                    '<strong>Temporizadores</strong>: Se implementa la técnica de <strong><code>setTimeout</code> y <code>clearTimeout</code></strong> para ocultar la barra automáticamente después de 2,5 segundos de inactividad, mejorando la experiencia del usuario.'
+                ],
+                'p4': 'Estas técnicas combinadas crean un sistema robusto, reactivo y con un diseño elegante, demostrando un uso eficaz de las herramientas fundamentales del desarrollo web.',
+                'h2-3': '3. Componente de Traducción de Idioma',
+                'p5': 'El componente de traducción de idioma se ha añadido para permitir a los usuarios cambiar el contenido de la página a su idioma preferido. El menú desplegable muestra una lista de idiomas disponibles. Al seleccionar un idioma, se actualiza el texto principal del artículo dinámicamente, proporcionando una experiencia más inclusiva y accesible para los usuarios de todo el mundo.'
+            },
+            'EN': {
+                'main-title': 'Theme Control System Documentation',
+                'p1': 'This documentation describes the functionality and structure of the interactive theme control system, implemented using pure <strong>HTML</strong>, <strong>CSS</strong>, and <strong>JavaScript</strong>. The goal is to provide a minimalist and functional interface that allows users to gradually adjust a web page\'s brightness, fluidly changing from light to dark mode.',
+                'h2-1': '1. Structure and Style',
+                'p2': 'The page is built with a simple structure and a clean appearance, using <strong>Tailwind CSS</strong> for efficient styling.',
+                'ul-1': [
+                    '<strong>HTML</strong>: It is divided into three main components for logical organization: the interface container, the slider container, and the article content.',
+                    '<strong>CSS</strong>: The styling is based on Tailwind CSS utilities for layout and custom CSS for specific elements. **CSS transitions** make visual changes fluid.'
+                ],
+                'h2-2': '2. Logic and Techniques',
+                'p3': 'This is where the system comes to life, handling all interactivity with JavaScript.',
+                'ul-2': [
+                    '<strong>DOM Manipulation</strong>: Methods like <code>document.getElementById()</code> are used to select elements, and properties like <code>classList</code> and <code>style</code> are modified to dynamically change element appearance.',
+                    '<strong>Event Handling</strong>: The system uses **event listeners** (<code>click</code>, <code>mousedown</code>, <code>mousemove</code>, <code>mouseup</code>) to react to user actions, allowing for dragging and instant clicks.',
+                    '<strong>State Control</strong>: Variables are used to maintain the current state of the interface, such as <code>isDragging</code> and <code>darknessPercentage</code>.',
+                    '<strong>Timers</strong>: The **<code>setTimeout</code> and <code>clearTimeout</code>** technique is implemented to automatically hide the slider bar after 2.5 seconds of inactivity, enhancing the user experience.'
+                ],
+                'p4': 'These combined techniques create a robust, reactive, and elegantly designed system, demonstrating an effective use of fundamental web development tools.',
+                'h2-3': '3. Language Translation Component',
+                'p5': 'The language translation component has been added to allow users to switch the page\'s content to their preferred language. The dropdown menu displays a list of available languages. By selecting a language, the main article text is updated dynamically, providing a more inclusive and accessible experience for users worldwide.'
+            },
+            'FR': {
+                'main-title': 'Documentation du système de contrôle de thème',
+                'p1': 'Cette documentation décrit le fonctionnement et la structure du système de contrôle de thème interactif, mis en œuvre avec du <strong>HTML</strong>, du <strong>CSS</strong> et du <strong>JavaScript</strong> purs. L\'objectif est de fournir une interface minimaliste et fonctionnelle qui permet aux utilisateurs d\'ajuster progressivement la luminosité d\'une page web, en passant de manière fluide du mode clair au mode sombre.',
+                'h2-1': '1. Structure et style',
+                'p2': 'La page est construite avec une structure simple et une apparence épurée, en utilisant **Tailwind CSS** pour un style efficace.',
+                'ul-1': [
+                    '<strong>HTML</strong> : Il est divisé en trois composants principaux pour une organisation logique : le conteneur d\'interface, le conteneur du curseur et le contenu de l\'article.',
+                    '<strong>CSS</strong> : Le style est basé sur les utilitaires de Tailwind CSS pour la mise en page et sur du CSS personnalisé pour des éléments spécifiques. Les **transitions CSS** rendent les changements visuels fluides.'
+                ],
+                'h2-2': '2. Logique et techniques',
+                'p3': 'C\'est ici que le système prend vie, gérant toute l\'interactivité avec JavaScript.',
+                'ul-2': [
+                    '<strong>Manipulation du DOM</strong> : Des méthodes comme <code>document.getElementById()</code> sont utilisées pour sélectionner des éléments, et des propriétés comme <code>classList</code> et <code>style</code> sont modifiées pour changer dynamiquement l\'apparence des éléments.',
+                    '<strong>Gestion des événements</strong> : Le système utilise des **écouteurs d\'événements** (<code>click</code>, <code>mousedown</code>, <code>mousemove</code>, <code>mouseup</code>) pour réagir aux actions de l\'utilisateur, permettant le glisser-déposer et les clics instantanés.',
+                    '<strong>Contrôle d\'état</strong> : Des variables sont utilisées pour maintenir l\'état actuel de l\'interface, telles que <code>isDragging</code> et <code>darknessPercentage</code>.',
+                    '<strong>Minuteries</strong> : La technique de **<code>setTimeout</code> et <code>clearTimeout</code>** est mise en œuvre pour masquer automatiquement la barre de défilement après 2,5 secondes d\'inactivité, améliorant l\'expérience utilisateur.'
+                ],
+                'p4': 'Ces techniques combinées créent un système robuste, réactif et élégamment conçu, démontrant une utilisation efficace des outils fondamentaux du développement web.',
+                'h2-3': '3. Composant de traduction de langue',
+                'p5': 'Le composant de traduction de langue a été ajouté pour permettre aux utilisateurs de changer le contenu de la page dans leur langue préférée. Le menu déroulant affiche une liste de langues disponibles. En sélectionnant une langue, le texte principal de l\'article est mis à jour dynamiquement, offrant une expérience plus inclusive et accessible aux utilisateurs du monde entier.'
+            },
+            'DE': {
+                'main-title': 'Dokumentation des Themensteuerungssystems',
+                'p1': 'Diese Dokumentation beschreibt die Funktionalität und Struktur des interaktiven Themensteuerungssystems, das mit reinem <strong>HTML</strong>, <strong>CSS</strong> und <strong>JavaScript</strong> implementiert wurde. Das Ziel ist es, eine minimalistische und funktionale Schnittstelle bereitzustellen, die es Benutzern ermöglicht, die Helligkeit einer Webseite schrittweise anzupassen und fließend vom hellen in den dunklen Modus zu wechseln.',
+                'h2-1': '1. Struktur und Stil',
+                'p2': 'Die Seite ist mit einer einfachen Struktur und einem sauberen Erscheinungsbild aufgebaut und verwendet **Tailwind CSS** für ein effizientes Styling.',
+                'ul-1': [
+                    '<strong>HTML</strong>: Es ist in drei Hauptkomponenten für eine logische Organisation unterteilt: den Schnittstellen-Container, den Slider-Container und den Artikelinhalt.',
+                    '<strong>CSS</strong>: Das Styling basiert auf Tailwind CSS-Dienstprogrammen für das Layout und benutzerdefiniertem CSS für spezifische Elemente. **CSS-Übergänge** machen visuelle Änderungen fließend.'
+                ],
+                'h2-2': '2. Logik und Techniken',
+                'p3': 'Hier erwacht das System zum Leben und verwaltet die gesamte Interaktivität mit JavaScript.',
+                'ul-2': [
+                    '<strong>DOM-Manipulation</strong>: Methoden wie <code>document.getElementById()</code> werden verwendet, um Elemente auszuwählen, und Eigenschaften wie <code>classList</code> und <code>style</code> werden geändert, um das Erscheinungsbild der Elemente dynamisch zu ändern.',
+                    '<strong>Ereignisbehandlung</strong>: El sistema utiliza **event listeners** (<code>click</code>, <code>mousedown</code>, <code>mousemove</code>, <code>mouseup</code>) para reaccionar a las acciones del usuario, lo que le permite arrastrar y hacer clics instantáneos.',
+                    '<strong>Zustandskontrolle</strong>: Variablen werden verwendet, um den aktuellen Zustand der Schnittstelle beizubehalten, wie <code>isDragging</code> y <code>darknessPercentage</code>.',
+                    '<strong>Timer</strong>: Die Technik von **<code>setTimeout</code> und <code>clearTimeout</code>** wird implementiert, um die Slider-Leiste nach 2,5 Sekunden Inaktivität automatisch auszublenden, was die Benutzererfahrung verbessert.'
+                ],
+                'p4': 'Diese kombinierten Techniken schaffen ein robustes, reaktives und elegant gestaltetes System, das eine effektive Nutzung der grundlegenden Webentwicklungswerkzeuge demonstriert.',
+                'h2-3': '3. Sprachübersetzungskomponente',
+                'p5': 'Die Sprachübersetzungskomponente wurde hinzugefügt, damit Benutzer den Seiteninhalt in ihre bevorzugte Sprache wechseln können. Das Dropdown-Menü zeigt eine Liste der verfügbaren Sprachen an. Durch die Auswahl einer Sprache wird der Hauptartikeltext dynamisch aktualisiert, was eine inklusivere und zugänglichere Erfahrung für Benutzer weltweit ermöglicht.'
+            },
+            'JP': {
+                'main-title': 'テーマ制御システムのドキュメント',
+                'p1': 'このドキュメントは、ピュアな<strong>HTML</strong>、<strong>CSS</strong>、および<strong>JavaScript</strong>を使用して実装された、インタラクティブなテーマ制御システムの機能と構造について説明します。目的は、ユーザーがウェブページの明るさを徐々に調整し、ライトモードからダークモードへスムーズに切り替えることができる、ミニマリストで機能的なインターフェースを提供することです。',
+                'h2-1': '1. 構造とスタイル',
+                'p2': 'このページは、シンプルな構造とクリーンな外観で構築されており、効率的なスタイリングのために**Tailwind CSS**を使用しています。',
+                'ul-1': [
+                    '<strong>HTML</strong>: 論理的な構成のために、インターフェースコンテナ、スライダーコンテナ、および記事コンテンツの3つの主要コンポーネントに分かれています。',
+                    '<strong>CSS</strong>: スタイリングは、レイアウト用のTailwind CSSユーティリティと、特定の要素用のカスタムCSSに基づいています。**CSSトランジション**により、視覚的な変更がスムーズになります。'
+                ],
+                'h2-2': '2. ロジックとテクニック',
+                'p3': 'ここでは、JavaScriptで全てのインタラクティビティを管理し、システムが活気づきます。',
+                'ul-2': [
+                    '<strong>DOM操作</strong>: <code>document.getElementById()</code>のようなメソッドを使用して要素を選択し、<code>classList</code>や<code>style</code>のようなプロパティを変更して、要素の外観を動的に変更します。',
+                    '<strong>イベント処理</strong>: システムは**イベントリスナー** (<code>click</code>, <code>mousedown</code>, <code>mousemove</code>, <code>mouseup</code>) を使用してユーザーのアクションに反応し、ドラッグや即時クリックを可能にします。',
+                    '<strong>状態管理</strong>: <code>isDragging</code>や<code>darknessPercentage</code>のような変数が、インターフェースの現在の状態を維持するために使用されます。',
+                    '<strong>タイマー</strong>: **<code>setTimeout</code> と <code>clearTimeout</code>** のテクニックが実装されており、2.5秒間の非アクティブ後にスライダーバーを自動的に非表示にし、ユーザーエクスペリエンスを向上させます。'
+                ],
+                'p4': 'これらのテクニックを組み合わせることで、堅牢で応答性が高く、エレガントなデザインのシステムが作成され、基本的なウェブ開発ツールの効果的な使用が示されています。',
+                'h2-3': '3. 言語翻訳コンポーネント',
+                'p5': '言語翻訳コンポーネントが追加され、ユーザーがページのコンテンツを希望する言語に切り替えることができるようになりました。ドロップダウンメニューには利用可能な言語のリストが表示されます。言語を選択すると、メインの記事テキストが動的に更新され、世界中のユーザーにとってより包括的でアクセスしやすい体験が提供されます。'
+            }
+        };
+
+        function updateLanguage(langCode) {
+            const content = translations[langCode];
+            if (content) {
+                document.getElementById('main-title').innerHTML = content['main-title'];
+                document.getElementById('p1').innerHTML = content['p1'];
+                document.getElementById('h2-1').innerHTML = content['h2-1'];
+                document.getElementById('p2').innerHTML = content['p2'];
+                document.getElementById('h2-2').innerHTML = content['h2-2'];
+                document.getElementById('p3').innerHTML = content['p3'];
+                document.getElementById('p4').innerHTML = content['p4'];
+                document.getElementById('h2-3').innerHTML = content['h2-3'];
+                document.getElementById('p5').innerHTML = content['p5'];
+
+                const ul1Items = document.querySelectorAll('#ul-1 li span');
+                ul1Items.forEach((span, index) => {
+                    span.innerHTML = content['ul-1'][index];
+                });
+                
+                const ul2Items = document.querySelectorAll('#ul-2 li span');
+                ul2Items.forEach((span, index) => {
+                    span.innerHTML = content['ul-2'][index];
+                });
+
+                currentLanguageLabel.textContent = langCode;
+            }
+        }
+
+        function createLanguageList() {
+            languages.forEach(lang => {
+                const li = document.createElement('li');
+                li.className = 'py-2 px-4 cursor-pointer rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200';
+                li.textContent = lang.name;
+                li.setAttribute('data-lang', lang.code);
+                languageDropdown.appendChild(li);
+
+                li.addEventListener('click', (e) => {
+                    // Detiene la propagación para que el clic en el elemento de la lista no active
+                    // el listener del documento, evitando que el menú se cierre al instante.
+                    e.stopPropagation(); 
+                    updateLanguage(lang.code);
+                    languageDropdown.classList.add('opacity-0', 'pointer-events-none');
+                });
+            });
+        }
+        
+        languageButton.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            languageDropdown.classList.toggle('opacity-0');
+            languageDropdown.classList.toggle('pointer-events-none');
+        });
+
         const themeButton = document.getElementById('theme-button');
         const sunIcon = document.getElementById('sun-icon');
         const moonIcon = document.getElementById('moon-icon');
@@ -150,10 +373,11 @@
         const percentageLabel = document.getElementById('percentage-label');
         const body = document.body;
         const contentContainer = document.getElementById('content-container');
-        const heading = contentContainer.querySelector('h1');
-        const subheadings = contentContainer.querySelectorAll('h2');
+        const heading = document.getElementById('main-title');
+        const subheadings = document.querySelectorAll('h2');
+        const paragraphs = document.querySelectorAll('#content-container p');
+        const listItems = document.querySelectorAll('#content-container li');
 
-        let isDragging = false;
         let darknessPercentage = 0;
         let timeoutId = null;
 
@@ -173,9 +397,19 @@
                     h.classList.remove('dark-heading');
                     h.classList.add('light-heading');
                 });
-                themeButton.style.color = 'white';
+                paragraphs.forEach(p => {
+                    p.classList.remove('dark-text');
+                    p.classList.add('light-text');
+                });
+                listItems.forEach(li => {
+                    li.classList.remove('dark-text');
+                    li.classList.add('light-text');
+                });
+                languageButton.classList.remove('dark-text');
+                languageButton.classList.add('light-text');
                 percentageLabel.classList.add('light-text');
                 percentageLabel.classList.remove('dark-text');
+                themeButton.style.color = 'white';
                 sunIcon.classList.add('hidden');
                 moonIcon.classList.remove('hidden');
             } else {
@@ -187,9 +421,19 @@
                     h.classList.remove('light-heading');
                     h.classList.add('dark-heading');
                 });
-                themeButton.style.color = 'black';
+                paragraphs.forEach(p => {
+                    p.classList.remove('light-text');
+                    p.classList.add('dark-text');
+                });
+                listItems.forEach(li => {
+                    li.classList.remove('light-text');
+                    li.classList.add('dark-text');
+                });
+                languageButton.classList.remove('light-text');
+                languageButton.classList.add('dark-text');
                 percentageLabel.classList.add('dark-text');
                 percentageLabel.classList.remove('light-text');
+                themeButton.style.color = 'black';
                 sunIcon.classList.remove('hidden');
                 moonIcon.classList.add('hidden');
             }
@@ -204,12 +448,11 @@
         // Función para reiniciar el temporizador para ocultar la barra
         function resetTimeout() {
             clearTimeout(timeoutId);
-            timeoutId = setTimeout(hideSlider, 2500); // 3 segundos de inactividad
+            timeoutId = setTimeout(hideSlider, 2500); // 2.5 segundos de inactividad
         }
         
-        // Manejador para el movimiento del mouse durante el arrastre
+        // Manejador del movimiento del mouse dentro del slider
         function handleMouseMove(e) {
-            if (!isDragging) return;
             resetTimeout();
             const sliderRect = slider.getBoundingClientRect();
             let newPercentage = (((e.clientY - sliderRect.top) / sliderRect.height) * 100);
@@ -217,27 +460,6 @@
             if (newPercentage > 100) newPercentage = 100;
             if (newPercentage < 0) newPercentage = 0;
 
-            darknessPercentage = newPercentage;
-            sliderHandle.style.top = `${darknessPercentage}%`;
-            percentageLabel.textContent = `${Math.round(darknessPercentage)}%`;
-            updateTheme(darknessPercentage);
-        }
-
-        // Manejador para soltar el click del mouse
-        function handleMouseUp() {
-            isDragging = false;
-            resetTimeout();
-        }
-
-        // Manejador para hacer clic en la barra del slider
-        function handleSliderClick(e) {
-            resetTimeout();
-            const sliderRect = slider.getBoundingClientRect();
-            let newPercentage = (((e.clientY - sliderRect.top) / sliderRect.height) * 100);
-            
-            if (newPercentage > 100) newPercentage = 100;
-            if (newPercentage < 0) newPercentage = 0;
-            
             darknessPercentage = newPercentage;
             sliderHandle.style.top = `${darknessPercentage}%`;
             percentageLabel.textContent = `${Math.round(darknessPercentage)}%`;
@@ -245,7 +467,8 @@
         }
 
         // Event listener para el botón de tema
-        themeButton.addEventListener('click', () => {
+        themeButton.addEventListener('click', (e) => {
+            e.stopPropagation();
             sliderContainer.classList.toggle('opacity-0');
             sliderContainer.classList.toggle('pointer-events-none');
             if (!sliderContainer.classList.contains('opacity-0')) {
@@ -255,28 +478,55 @@
             }
         });
 
-        // Event listeners para el arrastre del slider
-        sliderHandle.addEventListener('mousedown', (e) => {
-            isDragging = true;
+        // los eventos solo se activan dentro del slider
+        slider.addEventListener('mousedown', (e) => {
             e.preventDefault();
-            clearTimeout(timeoutId);
+            e.stopPropagation();
+            // Llama a la función de movimiento cuando se hace clic dentro del slider
+            // y la elimina cuando el mouse se levanta o sale
+            slider.addEventListener('mousemove', handleMouseMove);
+            slider.addEventListener('mouseup', handleMouseUp);
+            slider.addEventListener('mouseleave', handleMouseUp);
         });
-        
-        slider.addEventListener('click', handleSliderClick);
 
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
+        function handleMouseUp() {
+            slider.removeEventListener('mousemove', handleMouseMove);
+            slider.removeEventListener('mouseup', handleMouseUp);
+            slider.removeEventListener('mouseleave', handleMouseUp);
+        }
         
-        // Ocultar el slider si se hace clic fuera de él
+        // Event listener para hacer clic en la barra del slider
+        slider.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            const sliderRect = slider.getBoundingClientRect();
+            let newPercentage = (((e.clientY - sliderRect.top) / sliderRect.height) * 100);
+            
+            if (newPercentage > 100) newPercentage = 100;
+            if (newPercentage < 0) newPercentage = 0;
+            
+            darknessPercentage = newPercentage;
+            sliderHandle.style.top = `${darknessPercentage}%`;
+            percentageLabel.textContent = `${Math.round(darknessPercentage)}%`;
+            updateTheme(darknessPercentage);
+            resetTimeout();
+        });
+
+        // Ocultar el slider y el dropdown de idioma si se hace clic fuera de ellos
         document.addEventListener('mousedown', (e) => {
-            if (!sliderContainer.contains(e.target) && !themeButton.contains(e.target)) {
+            const isClickOnThemeComponent = sliderContainer.contains(e.target) || themeButton.contains(e.target);
+            const isClickOnLanguageComponent = languageDropdown.contains(e.target) || languageButton.contains(e.target);
+            
+            // Si el clic no está en ninguno de los componentes de la interfaz, ocúltalos.
+            if (!isClickOnThemeComponent && !isClickOnLanguageComponent) {
                 hideSlider();
                 clearTimeout(timeoutId);
+                languageDropdown.classList.add('opacity-0', 'pointer-events-none');
             }
         });
 
-        // Inicializar el tema
+        // Inicializar el tema y la lista de idiomas
         updateTheme(darknessPercentage);
+        createLanguageList();
     </script>
 </body>
 </html>
